@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuhoff District | Future Office</title>
+
+  <!-- Adobe Fonts: Termina + URW DIN -->
+  <link rel="stylesheet" href="https://use.typekit.net/pit3iow.css">
+
+  <!-- Prevent white flash before CSS loads -->
+  <style>html{background:#243746}</style>
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #243746;
+      --yellow: #d5b656;
+      --offwhite: #faf7ed;
+      --navy-90: rgba(36, 55, 70, 0.92);
+      --navy-70: rgba(36, 55, 70, 0.7);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      scroll-snap-type: y proximity;
+    }
+
+    body {
+      font-family: "urw-din", sans-serif;
+      font-weight: 400;
+      color: var(--navy);
+      background: var(--offwhite);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Typography ───────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-label {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Navigation ───────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.4s ease, padding 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: var(--navy-90);
+      padding: 0.75rem 3.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-logo svg {
+      height: 28px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── Hero: Two-part scroll reveal ────────────── */
+    .hero-wrapper {
+      position: relative;
+      height: 200vh; /* two screens tall */
+    }
+
+    /* Title card sits behind, sticky */
+    .hero-title {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--navy);
+      z-index: 1;
+      scroll-snap-align: start;
+      padding: 3.5rem;
+      color: var(--offwhite);
+    }
+
+    .hero-title-content {
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hero-title h1 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: none;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title-rule {
+      width: 100%;
+      height: 1px;
+      background: rgba(250, 247, 237, 0.2);
+      margin-bottom: 0;
+    }
+
+    .hero-title-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+    }
+
+    .hero-title-date {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .hero-title-icon {
+      position: absolute;
+      bottom: 3.5rem;
+      left: 3.5rem;
+      width: 45px;
+      height: auto;
+      opacity: 0.6;
+    }
+
+    /* Video sits on top, scrolls away */
+    .hero-video {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      z-index: 2;
+      margin-top: -100vh;
+      background: var(--navy);
+    }
+
+    /* Prevent title card flash on load */
+    .hero-title { opacity: 0; transition: opacity 0.4s ease; }
+    .hero-title.revealed { opacity: 1; }
+
+    .hero-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sound-toggle {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 3.5rem;
+      z-index: 4;
+      background: rgba(36, 55, 70, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(250, 247, 237, 0.25);
+      border-radius: 100px;
+      height: 44px;
+      padding: 0 1.25rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: var(--offwhite);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .sound-toggle:hover {
+      background: rgba(36, 55, 70, 0.8);
+      border-color: rgba(250, 247, 237, 0.4);
+    }
+
+    .sound-toggle svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .sound-toggle-label {
+      font-family: "termina", sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .sound-toggle .icon-unmute { display: none; }
+    .sound-toggle .label-unmute { display: none; }
+    .sound-toggle.unmuted .icon-mute { display: none; }
+    .sound-toggle.unmuted .label-mute { display: none; }
+    .sound-toggle.unmuted .icon-unmute { display: block; }
+    .sound-toggle.unmuted .label-unmute { display: block; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--offwhite);
+      opacity: 0.5;
+      animation: pulseDown 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator span {
+      font-family: "termina", sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-indicator svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    @keyframes pulseDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+    }
+
+    /* ── Overview: Full viewport with image bg ───── */
+    .overview {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: var(--navy);
+      color: var(--offwhite);
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+
+    .overview-image-full {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .overview-image-full img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .overview-image-full img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .overview-content {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 3.5rem;
+    }
+
+    .overview-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 4rem;
+    }
+
+    .overview-text {
+      max-width: 640px;
+    }
+
+    .overview-text h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: none;
+      margin-bottom: 1.5rem;
+      line-height: 1;
+    }
+
+    .overview-text p {
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.8;
+      opacity: 0.85;
+      margin-bottom: 2rem;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      border-left: 2px solid var(--yellow);
+      padding-left: 1rem;
+    }
+
+    .stat-value {
+      font-family: "termina", sans-serif;
+      font-weight: 500;
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      color: var(--yellow);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-top: 0.25rem;
+    }
+
+    .overview-stats-right {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+      padding-bottom: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Building Hero Sections ───────────────────── */
+    .building-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .building-hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    .building-hero-overlay {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 3.5rem;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .building-hero h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: none;
+      color: var(--offwhite);
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    .building-hero .architect {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      opacity: 0.7;
+    }
+
+    .building-hero .section-label {
+      display: none;
+    }
+
+    /* ── Specs Section ────────────────────────────── */
+    .section {
+      padding: 6rem 3.5rem;
+    }
+
+    .section-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .specs {
+      background: var(--offwhite);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .specs-grid.reversed {
+      direction: rtl;
+    }
+
+    .specs-grid.reversed > * {
+      direction: ltr;
+    }
+
+    .specs-text h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .specs-text p {
+      font-weight: 300;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .feature-list li {
+      font-family: "urw-din", sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(36, 55, 70, 0.1);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 3px;
+      background: var(--yellow);
+      border-radius: 50%;
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .spec-table tr {
+      border-bottom: 1px solid rgba(36, 55, 70, 0.1);
+      transition: background 0.2s ease;
+    }
+
+    .spec-table tr:hover {
+      background: rgba(36, 55, 70, 0.03);
+    }
+
+    .spec-table td {
+      padding: 0.9rem 0;
+      vertical-align: top;
+    }
+
+    .spec-table td:first-child {
+      font-family: "termina", sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      width: 40%;
+      padding-right: 1.5rem;
+    }
+
+    .spec-table td:last-child {
+      font-weight: 400;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Dark specs variant for 2nd Ave */
+    .specs-dark {
+      background: var(--navy);
+      color: var(--offwhite);
+    }
+
+    .specs-dark .specs-text p {
+      color: var(--offwhite);
+    }
+
+    .specs-dark .spec-table tr {
+      border-bottom-color: rgba(250, 247, 237, 0.1);
+    }
+
+    .specs-dark .spec-table tr:hover {
+      background: rgba(250, 247, 237, 0.03);
+    }
+
+    .specs-dark .spec-table td:first-child {
+      color: var(--offwhite);
+    }
+
+    .specs-dark .spec-table td:last-child {
+      color: var(--offwhite);
+    }
+
+    .specs-image {
+      border-radius: 2px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+
+    .specs-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── Stacking Plan ────────────────────────────── */
+    .stacking-plan {
+      background: var(--navy);
+      color: var(--offwhite);
+    }
+
+    .stacking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .stacking-plan h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .stacking-text p {
+      font-weight: 300;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .stacking-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stacking-stat {
+      border-left: 2px solid var(--yellow);
+      padding-left: 1rem;
+    }
+
+    .stacking-stat-value {
+      font-family: "termina", sans-serif;
+      font-weight: 500;
+      font-size: 1.8rem;
+      letter-spacing: -0.01em;
+      color: var(--offwhite);
+      line-height: 1;
+    }
+
+    .stacking-stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-top: 0.4rem;
+    }
+
+    .stacking-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Image Gallery Rows ───────────────────────── */
+    .gallery {
+      padding: 0 3.5rem 6rem;
+    }
+
+    .gallery-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .gallery-grid.three-col {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      aspect-ratio: 16/10;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.03);
+    }
+
+    .gallery-item.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .gallery-item.full-width img {
+      aspect-ratio: 21/9;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(36,55,70,0.6) 0%, transparent 100%);
+      color: var(--offwhite);
+      font-family: "urw-din", sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Contact / Footer ────────────────────────── */
+    .contact {
+      background: var(--navy);
+      color: var(--offwhite);
+      padding: 5rem 3.5rem;
+    }
+
+    .contact-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .contact-branding {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.25rem;
+    }
+
+    .contact-icon {
+      width: 50px;
+      height: auto;
+    }
+
+    .contact-wordmark {
+      height: 18px;
+      width: auto;
+      margin-bottom: 4px;
+    }
+
+    .contact-right {
+      text-align: right;
+    }
+
+    .contact-right .section-label {
+      margin-bottom: 1.5rem;
+      color: var(--offwhite);
+      opacity: 0.5;
+    }
+
+    .contact-details {
+      font-weight: 300;
+      font-size: 0.9rem;
+      line-height: 2;
+      opacity: 0.7;
+    }
+
+    .contact-details a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    .contact-details a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-bar {
+      background: var(--navy);
+      border-top: 1px solid rgba(250,247,237,0.08);
+      padding: 1.5rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: rgba(250,247,237,0.55);
+    }
+
+    .footer-wordmark {
+      height: 14px;
+      width: auto;
+      opacity: 0.6;
+    }
+
+    /* ── Scroll Animations ────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .overview-inner {
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .overview {
+        min-height: 500px;
+      }
+
+      .overview-content {
+        padding: 3rem 1.5rem;
+      }
+
+      .stacking-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .specs-grid,
+      .specs-grid.reversed {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        direction: ltr;
+      }
+
+      .specs-image {
+        aspect-ratio: 16/10;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .gallery-grid.three-col {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-row {
+        flex-direction: row;
+        gap: 2rem;
+      }
+
+      .nav-links { display: none; }
+
+      .section { padding: 3.5rem 1.5rem; }
+      .gallery { padding: 0 1.5rem 3.5rem; }
+      nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .overview-content { padding: 3rem 1.5rem; }
+      .contact { padding: 3rem 1.5rem; }
+
+      .building-hero { height: 70vh; }
+      .building-hero-overlay { padding: 3rem 1.5rem; padding-top: 10rem; }
+
+      .sound-toggle { right: 1.5rem; bottom: 2rem; }
+
+      .contact-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3rem;
+      }
+      .contact-right { text-align: left; }
+
+      .footer-bar { padding: 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { padding: 1.5rem; }
+      .hero-title-icon { bottom: 1.5rem; left: 1.5rem; width: 35px; }
+
+      .stat-row { flex-direction: column; gap: 1.5rem; }
+
+      .overview-text h2 { font-size: 1.4rem; }
+
+      .building-hero { height: 60vh; min-height: 400px; }
+      .building-hero h2 { font-size: 1.6rem; }
+
+      .sound-toggle .sound-toggle-label { display: none; }
+      .sound-toggle { padding: 0; width: 44px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Navigation ═══ -->
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 389.68 81.88" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M389.68,35.25v-9.32h-16.62v-3.87c0-9.44,4.65-12.74,12.79-12.74h3.84V0h-6.39c-13.02,0-20.93,5.69-20.93,20.47v60.04h10.7v-45.26h16.62ZM267.73,50.49c0-15.12,7.91-22.06,19.07-22.06,12.32,0,18.83,7.16,18.83,22.06h-.12c0,15.13-8.14,22.06-18.72,22.06-11.39,0-19.07-7.28-19.07-22.06M75.57,44.81c.58-10.46,7.67-16.38,17.9-16.38,11.29,0,16.98,5.79,16.98,15.77,0,.2,0,.4,0,.6h-34.88ZM55.34,80.51v-32.98c0-18.31-9.07-28.43-27.44-28.43C10.7,19.1,0,27.97,0,47.54v32.98h10.7v-32.98c0-13.08,6.16-19.1,17.09-19.1,11.97,0,16.86,6.71,16.86,19.1v32.98h10.69ZM121.38,47.8c0-18.91-9.96-28.7-27.68-28.7s-29.06,9.78-29.06,30.25,11.28,31.16,30.11,31.16h19.18v-9.44h-19.3c-11.39,0-18.14-6.37-18.72-16.95h45.34s.12-3.64.12-5.34c0-.33,0-.66,0-.98M185.31,53.45V20.47h-10.69v32.98c0,13.08-6.16,19.1-17.09,19.1-11.97,0-16.86-6.71-16.86-19.1V20.47h-10.69v32.98c0,18.31,9.07,28.43,27.44,28.43,17.21,0,27.9-8.87,27.9-28.43M250.18,80.51v-34.12c0-17.97-6.63-27.29-22.09-27.29-14.3,0-20.34,7.96-22.09,15.24h-.46V0h-10.7v80.51h10.7v-28.89c0-15.81,8.72-23.2,18.48-23.2,11.39,0,15.46,6.82,15.46,20.47v31.61h10.69ZM316.21,50.49c0-20.13-10.7-31.39-29.3-31.39-17.32,0-29.76,10.35-29.76,31.39s11.28,31.39,29.76,31.39c17.32,0,29.3-10.8,29.3-31.39M353.06,35.25v-9.32h-16.62v-3.87c0-9.44,4.65-12.74,12.79-12.74h3.84V0h-6.39c-13.02,0-20.93,5.69-20.93,20.47v60.04h10.7v-45.26h16.62Z" fill="#fbf7ed"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#block3">Block 3</a></li>
+      <li><a href="#second-ave">2nd Avenue</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ Hero: Video scrolls away, title card reveals ═══ -->
+  <div class="hero-wrapper">
+    <!-- Title card (sticky behind) -->
+    <section class="hero-title">
+      <div class="hero-title-content">
+        <h1>Future Office</h1>
+        <div class="hero-title-rule"></div>
+        <div class="hero-title-row">
+          <span class="hero-title-date">Early 2028 Occupancy</span>
+        </div>
+      </div>
+      <svg class="hero-title-icon" viewBox="0 0 123.55 247.43" xmlns="http://www.w3.org/2000/svg">
+        <g><rect fill="#fbf7ed" width="52.32" height="247.43"/><path fill="#fbf7ed" d="M71.23,0v247.43h52.32V55.03C123.55,24.74,99.87,0,71.23,0Z"/></g>
+      </svg>
+    </section>
+
+    <!-- Video (scrolls away on top) -->
+    <div class="hero-video">
+      <video autoplay muted loop playsinline poster="/images/G-B3-P5-AERIAL RENDERING OF CAMPUS.jpg">
+        <source src="/video/2026.03.03_Neuhoff_Video1_V1_DN.mp4" type="video/mp4">
+      </video>
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
+        <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+        <svg class="icon-unmute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span class="sound-toggle-label label-mute">Sound On</span>
+        <span class="sound-toggle-label label-unmute">Sound Off</span>
+      </button>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ District Overview ═══ -->
+  <section class="overview" id="overview">
+    <!-- Full-bleed aerial image -->
+    <div class="overview-image-full fade-in">
+      <img src="/images/G-B3-P4-AERIAL DRONE PHOTO OF EXISTING CAMPUS.jpg" alt="Aerial view of Neuhoff District campus on the Cumberland River">
+    </div>
+    <!-- Text + stats below -->
+    <div class="overview-content">
+      <div class="overview-inner">
+        <div class="overview-text fade-in">
+          <h2>A Landmark<br>in the Making</h2>
+          <p>A 9-acre mixed-use district on the Cumberland River, Neuhoff reimagines a historic industrial site as a destination for office, retail, and residential life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Office Overview ═══ -->
+  <section class="section specs">
+    <div class="section-inner">
+      <div class="specs-grid">
+        <div class="specs-text fade-in">
+          <div class="section-label">Office Overview</div>
+          <h3>Inspired by Heritage,<br>Built for the Future</h3>
+          <p>The design of the new buildings are inspired by the factory complex heritage of the site, creating a unique neighborhood centered around the existing historic structures. The two new office buildings, along with the iconic curved Neuhoff building, differ in form and materiality but all share the same industrial "DNA."</p>
+          <p>The exposed concrete office tower with circular columns and planters integrated into the facade was inspired by one of the original Neuhoff buildings. The blackened metal office building is a series of stacked boxes that reaches over Adams Street to rest on the 2nd concrete office building, tying the two together to create a memorial silhouette on the horizon and provide office tenants with an unparalleled view of the city.</p>
+          <div class="stat-row" style="margin-top: 2.5rem;">
+            <div class="stat">
+              <div class="stat-value">914K+</div>
+              <div class="stat-label">SF at Full Buildout</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">9 Acres</div>
+              <div class="stat-label">Mixed-Use Campus</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">&lt;1 mi</div>
+              <div class="stat-label">to Downtown Nashville</div>
+            </div>
+          </div>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/G-B3-P3-OFFICE OVERVIEW.jpg" alt="Office overview rendering of Neuhoff District campus" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Block 3 Office ═══ -->
+
+  <!-- Block 3: Hero — full viewport -->
+  <section class="building-hero" id="block3">
+    <img src="/images/G-B3-P9-VIEW OF BRIDGE - DUSK.jpg" alt="Block 3 Office tower at dusk">
+    <div class="building-hero-overlay">
+      <div class="section-label">Block 3</div>
+      <h2>Block Three</h2>
+      <div class="architect">S9 Architecture &ensp;|&ensp; Early 2028</div>
+    </div>
+  </section>
+
+  <!-- Block 3: Specs — text left, image right -->
+  <section class="section specs">
+    <div class="section-inner">
+      <div class="specs-grid">
+        <div class="specs-text fade-in">
+          <div class="section-label">Key Specifications</div>
+          <h3>Block 3 Office</h3>
+          <p>The next phase of office at Neuhoff District is a 15-story tower designed by S9 Architecture, the same team behind Block 1. Connected to the existing campus via a two-story skybridge, Block 3 offers large, efficient floorplates with panoramic views of the Nashville skyline and Cumberland River.</p>
+          <table class="spec-table">
+            <tr>
+              <td>Stories</td>
+              <td>15</td>
+            </tr>
+            <tr>
+              <td>Total Office</td>
+              <td>~290,000 SF (flex to ~315,000 SF)</td>
+            </tr>
+            <tr>
+              <td>Floorplates</td>
+              <td>~22,000 SF</td>
+            </tr>
+            <tr>
+              <td>Architect</td>
+              <td>S9 Architecture</td>
+            </tr>
+            <tr>
+              <td>Skybridge</td>
+              <td>Two-story connection to existing Block 1 at 1320 Adams St</td>
+            </tr>
+            <tr>
+              <td>Parking</td>
+              <td>2,000+ structured spaces across district (3.0/1,000 SF)</td>
+            </tr>
+            <tr>
+              <td>Construction</td>
+              <td>~4 months remaining design; construction start Q4 2026</td>
+            </tr>
+            <tr>
+              <td>Target Occupancy</td>
+              <td>Early 2028</td>
+            </tr>
+          </table>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/S9-P4.jpg" alt="Block 3 aerial rendering" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Block 3: Gallery — tight editorial grid -->
+  <div class="gallery">
+    <div class="gallery-inner">
+      <div class="gallery-grid">
+        <div class="gallery-item fade-in">
+          <img src="/images/G-B3-P6-STREET-LEVEL RENDERING WITH SKYBRIDGE CONNECTION.jpg" alt="Street-level rendering with skybridge" loading="lazy">
+          <div class="gallery-caption">Two-story skybridge connecting Block 3 to 1320 Adams St</div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img src="/images/G-B3-P11.jpg" alt="Block 3 terrace rendering" loading="lazy">
+          <div class="gallery-caption">Pedestrian-level bridge with panoramic river views</div>
+        </div>
+        <div class="gallery-item full-width fade-in">
+          <img src="/images/G-B3-P5-AERIAL RENDERING OF CAMPUS.jpg" alt="Aerial rendering of full Neuhoff campus with Block 3" loading="lazy">
+          <div class="gallery-caption">Full campus at buildout with Block 3 tower and Cumberland River frontage</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 3: Lobby -->
+  <section class="section specs">
+    <div class="section-inner">
+      <div class="specs-grid reversed">
+        <div class="specs-text fade-in">
+          <div class="section-label">Block Three</div>
+          <h3>Lobby</h3>
+          <p>The Block 3 lobby draws on the industrial heritage of the Neuhoff site, pairing terracotta brick volumes with exposed concrete structure and warm, diffused lighting.</p>
+          <ul class="feature-list">
+            <li>Terracotta and brick materiality referencing the original complex</li>
+            <li>Open-cell ceiling system with warm ambient lighting</li>
+            <li>Biophilic planting areas and pebble garden</li>
+            <li>Gallery-quality corridor connecting to campus amenities</li>
+          </ul>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/G-B3-P17-Lobby.jpg" alt="Block 3 lobby with terracotta brick and warm lighting" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Block 3: Level 14 Terrace -->
+  <section class="section specs">
+    <div class="section-inner">
+      <div class="specs-grid">
+        <div class="specs-text fade-in">
+          <div class="section-label">Block Three</div>
+          <h3>Level 14 Terrace</h3>
+          <p>A dedicated outdoor terrace on the top office level provides tenants with direct access to open-air gathering space and sweeping views of the river and Nashville skyline.</p>
+          <ul class="feature-list">
+            <li>Ipe wood decking with steel grating accents</li>
+            <li>Landscaped planting beds with native species</li>
+            <li>Tiered seating and informal meeting areas</li>
+            <li>Unobstructed river and skyline views</li>
+          </ul>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/G-B3-P10.jpg" alt="Level 14 terrace with skyline views" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Block 3: Stacking Plan -->
+  <section class="section stacking-plan">
+    <div class="section-inner">
+      <div class="stacking-grid">
+        <div class="stacking-text fade-in">
+          <div class="section-label">Block Three</div>
+          <h3>Stacking Plan</h3>
+          <p>Block 3 delivers ~290,000 SF of office across 15 levels, with ~22,000 SF typical floorplates. Five levels of structured parking sit below, and a two-story skybridge connects directly to the existing Block 1 office building.</p>
+          <div class="stacking-stats">
+            <div class="stacking-stat">
+              <div class="stacking-stat-value">15</div>
+              <div class="stacking-stat-label">Office Levels</div>
+            </div>
+            <div class="stacking-stat">
+              <div class="stacking-stat-value">~22K</div>
+              <div class="stacking-stat-label">SF Floorplate</div>
+            </div>
+            <div class="stacking-stat">
+              <div class="stacking-stat-value">~290K</div>
+              <div class="stacking-stat-label">SF Total Office</div>
+            </div>
+            <div class="stacking-stat">
+              <div class="stacking-stat-value">5</div>
+              <div class="stacking-stat-label">Parking Levels</div>
+            </div>
+          </div>
+        </div>
+        <div class="stacking-image fade-in">
+          <img src="/images/G-B3-P18-19-STACKING PLAN.png" alt="Block 3 stacking plan showing 15 office levels and skybridge connection to Block 1" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2nd Avenue Office ═══ -->
+
+  <!-- 2nd Ave: Hero — full viewport -->
+  <section class="building-hero" id="second-ave">
+    <img src="/images/G-2A-P6.jpg" alt="2nd Avenue Office building rendering">
+    <div class="building-hero-overlay">
+      <div class="section-label">Phase II</div>
+      <h2>Second Avenue</h2>
+      <div class="architect">Morris Adjmi Architects &ensp;|&ensp; Q2 2028</div>
+    </div>
+  </section>
+
+  <!-- 2nd Ave: Specs — DARK bg, image LEFT / text RIGHT (flipped) -->
+  <section class="section specs specs-dark">
+    <div class="section-inner">
+      <div class="specs-grid reversed">
+        <div class="specs-text fade-in">
+          <div class="section-label">Key Specifications</div>
+          <h3>2nd Avenue Office</h3>
+          <p>The 2nd Avenue building brings a distinctly different office format to Neuhoff District: a 7-story building with significantly larger floorplates, designed by Morris Adjmi Architects. It anchors a new mixed-use phase that includes residential, adaptive reuse retail, and direct Greenway connectivity.</p>
+          <table class="spec-table">
+            <tr>
+              <td>Stories</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>Total Office</td>
+              <td>~235,000 SF</td>
+            </tr>
+            <tr>
+              <td>Floorplates</td>
+              <td>~32,500 SF</td>
+            </tr>
+            <tr>
+              <td>Ground-Floor Retail</td>
+              <td>~33,000 SF</td>
+            </tr>
+            <tr>
+              <td>Architect</td>
+              <td>Morris Adjmi Architects</td>
+            </tr>
+            <tr>
+              <td>Mixed-Use Phase</td>
+              <td>~315 residential units + ~45,000 SF adaptive reuse retail</td>
+            </tr>
+            <tr>
+              <td>Parking</td>
+              <td>700+ structured spaces (3.0/1,000 SF)</td>
+            </tr>
+            <tr>
+              <td>Target Occupancy</td>
+              <td>Q2 2028</td>
+            </tr>
+          </table>
+        </div>
+        <div class="specs-image fade-in">
+          <!-- Placeholder: replace with 2nd Ave rendering once exported -->
+          <img src="/images/S9-P3-STREET-LEVEL RENDERING WITH SKYBRIDGE CONNECTION.jpg" alt="2nd Avenue building rendering" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2nd Ave: Gallery (placeholders for your exports) -->
+  <!--
+  <div class="gallery" style="background: var(--navy); padding-top: 0;">
+    <div class="gallery-inner">
+      <div class="gallery-grid three-col">
+        <div class="gallery-item fade-in">
+          <img src="/images/G-2A-STREET-CORNER.jpg" alt="2nd Avenue street corner view" loading="lazy">
+          <div class="gallery-caption">Street corner view at 2nd Ave N and Taylor</div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img src="/images/G-2A-COURTYARD.jpg" alt="2nd Avenue courtyard plaza" loading="lazy">
+          <div class="gallery-caption">Central courtyard with curated retail frontage</div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img src="/images/G-2A-AERIAL-PLAZA.jpg" alt="2nd Avenue aerial plaza view" loading="lazy">
+          <div class="gallery-caption">Aerial view of the mixed-use public realm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <!-- ═══ Contact ═══ -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-branding">
+        <svg class="contact-icon" viewBox="0 0 123.55 247.43" xmlns="http://www.w3.org/2000/svg">
+          <g><rect fill="#d5b656" width="52.32" height="247.43"/><path fill="#d5b656" d="M71.23,0v247.43h52.32V55.03C123.55,24.74,99.87,0,71.23,0Z"/></g>
+        </svg>
+      </div>
+      <div class="contact-right">
+        <div class="section-label">Office Leasing Information</div>
+        <div class="contact-details">
+          <p>
+            <strong>Holland Whitaker</strong><br>
+            New City, LLC<br>
+            1312 Adams St, Suite 100<br>
+            Nashville, TN 37208<br>
+            (404) 849-4801
+          </p>
+          <br>
+          <p>
+            <strong>Gavin Lejameyer</strong><br>
+            New City, LLC<br>
+            1310 Adams St<br>
+            Nashville, TN 37208<br>
+            (509) 552-3123
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-bar">
+    <span>&copy; 2026 New City, LLC. All rights reserved.</span>
+    <svg class="footer-wordmark" viewBox="0 0 389.68 81.88" xmlns="http://www.w3.org/2000/svg">
+      <path d="M389.68,35.25v-9.32h-16.62v-3.87c0-9.44,4.65-12.74,12.79-12.74h3.84V0h-6.39c-13.02,0-20.93,5.69-20.93,20.47v60.04h10.7v-45.26h16.62ZM267.73,50.49c0-15.12,7.91-22.06,19.07-22.06,12.32,0,18.83,7.16,18.83,22.06h-.12c0,15.13-8.14,22.06-18.72,22.06-11.39,0-19.07-7.28-19.07-22.06M75.57,44.81c.58-10.46,7.67-16.38,17.9-16.38,11.29,0,16.98,5.79,16.98,15.77,0,.2,0,.4,0,.6h-34.88ZM55.34,80.51v-32.98c0-18.31-9.07-28.43-27.44-28.43C10.7,19.1,0,27.97,0,47.54v32.98h10.7v-32.98c0-13.08,6.16-19.1,17.09-19.1,11.97,0,16.86,6.71,16.86,19.1v32.98h10.69ZM121.38,47.8c0-18.91-9.96-28.7-27.68-28.7s-29.06,9.78-29.06,30.25,11.28,31.16,30.11,31.16h19.18v-9.44h-19.3c-11.39,0-18.14-6.37-18.72-16.95h45.34s.12-3.64.12-5.34c0-.33,0-.66,0-.98M185.31,53.45V20.47h-10.69v32.98c0,13.08-6.16,19.1-17.09,19.1-11.97,0-16.86-6.71-16.86-19.1V20.47h-10.69v32.98c0,18.31,9.07,28.43,27.44,28.43,17.21,0,27.9-8.87,27.9-28.43M250.18,80.51v-34.12c0-17.97-6.63-27.29-22.09-27.29-14.3,0-20.34,7.96-22.09,15.24h-.46V0h-10.7v80.51h10.7v-28.89c0-15.81,8.72-23.2,18.48-23.2,11.39,0,15.46,6.82,15.46,20.47v31.61h10.69ZM316.21,50.49c0-20.13-10.7-31.39-29.3-31.39-17.32,0-29.76,10.35-29.76,31.39s11.28,31.39,29.76,31.39c17.32,0,29.3-10.8,29.3-31.39M353.06,35.25v-9.32h-16.62v-3.87c0-9.44,4.65-12.74,12.79-12.74h3.84V0h-6.39c-13.02,0-20.93,5.69-20.93,20.47v60.04h10.7v-45.26h16.62Z" fill="currentColor"/>
+    </svg>
+  </div>
+
+  <!-- ═══ Scripts ═══ -->
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Reveal title card once user scrolls past video
+    const heroTitle = document.querySelector('.hero-title');
+    const heroVideo = document.querySelector('.hero-video');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio < 0.95) {
+          heroTitle.classList.add('revealed');
+        }
+      });
+    }, { threshold: [0.95] });
+    revealObserver.observe(heroVideo);
+
+    // Sound toggle
+    const soundBtn = document.getElementById('soundToggle');
+    const heroVideoEl = document.querySelector('.hero-video video');
+    soundBtn.addEventListener('click', () => {
+      heroVideoEl.muted = !heroVideoEl.muted;
+      soundBtn.classList.toggle('unmuted', !heroVideoEl.muted);
+    });
+  </script>
+
+</body>
+</html>
