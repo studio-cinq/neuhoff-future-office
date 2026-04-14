@@ -163,7 +163,7 @@
       position: absolute;
       bottom: 3.5rem;
       left: 3.5rem;
-      width: 45px;
+      width: 32px;
       height: auto;
       opacity: 0.6;
     }
@@ -189,10 +189,10 @@
     }
 
     .sound-toggle {
-      position: absolute;
+      position: fixed;
       bottom: 2.5rem;
       right: 3.5rem;
-      z-index: 4;
+      z-index: 200;
       background: rgba(36, 55, 70, 0.6);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -698,7 +698,7 @@
     .contact {
       background: var(--navy);
       color: var(--offwhite);
-      padding: 7rem 3.5rem;
+      padding: 4rem 3.5rem 3rem;
     }
 
     .contact-inner {
@@ -716,7 +716,7 @@
     }
 
     .contact-icon {
-      width: 50px;
+      width: 32px;
       height: auto;
     }
 
@@ -826,17 +826,33 @@
       }
 
       .nav-links { display: none; }
+      nav { justify-content: flex-start; padding: 1.25rem 1.5rem; }
+      nav.scrolled { padding: 0.75rem 1.5rem; }
 
       .section { padding: 3.5rem 1.5rem; }
       .gallery { padding: 0 1.5rem 3.5rem; }
-      nav { padding-left: 1.5rem; padding-right: 1.5rem; }
       .overview-content { padding: 3rem 1.5rem; }
-      .contact { padding: 3rem 1.5rem; }
+      .contact { padding: 3rem 1.5rem 2rem; }
 
       .building-hero { height: 70vh; }
       .building-hero-overlay { padding: 3rem 1.5rem; padding-top: 10rem; }
 
-      .sound-toggle { right: 1.5rem; bottom: 2rem; }
+      .sound-toggle {
+        right: 1.5rem;
+        bottom: auto;
+        top: 1.25rem;
+        height: 40px;
+        padding: 0 1.1rem 0 0.9rem;
+        transition: all 0.4s ease;
+      }
+      .sound-toggle.unmuted {
+        padding: 0;
+        width: 40px;
+        justify-content: center;
+      }
+      .sound-toggle.unmuted .sound-toggle-label { display: none; }
+      .nav-logo { opacity: 0; transition: opacity 0.3s; }
+      nav.scrolled .nav-logo { opacity: 1; }
 
       .contact-inner {
         flex-direction: column;
@@ -850,7 +866,7 @@
 
     @media (max-width: 600px) {
       .hero-title { padding: 1.5rem; }
-      .hero-title-icon { bottom: 1.5rem; left: 1.5rem; width: 35px; }
+      .hero-title-icon { bottom: 1.5rem; left: 1.5rem; width: 24px; }
 
       .stat-row { flex-direction: column; gap: 1.5rem; }
 
@@ -859,8 +875,7 @@
       .building-hero { height: 60vh; min-height: 400px; }
       .building-hero h2 { font-size: 1.6rem; }
 
-      .sound-toggle .sound-toggle-label { display: none; }
-      .sound-toggle { padding: 0; width: 44px; justify-content: center; }
+      .sound-toggle svg { width: 16px; height: 16px; }
     }
   </style>
 </head>
@@ -902,26 +917,28 @@
       <video autoplay muted loop playsinline poster="/images/G-B3-P5-AERIAL RENDERING OF CAMPUS.jpg">
         <source src="/video/2026.03.03_Neuhoff_Video1_V1_DN.mp4" type="video/mp4">
       </video>
-      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
-        <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <line x1="23" y1="9" x2="17" y2="15"/>
-          <line x1="17" y1="9" x2="23" y2="15"/>
-        </svg>
-        <svg class="icon-unmute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        </svg>
-        <span class="sound-toggle-label label-mute">Sound On</span>
-        <span class="sound-toggle-label label-unmute">Sound Off</span>
-      </button>
       <div class="scroll-indicator">
         <span>Scroll</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
       </div>
     </div>
   </div>
+
+  <!-- Sound toggle lives outside hero to avoid z-index stacking issues on iOS -->
+  <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
+    <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/>
+      <line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+    <svg class="icon-unmute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+    <span class="sound-toggle-label label-mute">Sound On</span>
+    <span class="sound-toggle-label label-unmute">Sound Off</span>
+  </button>
 
   <!-- ═══ District Overview ═══ -->
   <section class="overview" id="overview">
@@ -1187,34 +1204,75 @@
           </table>
         </div>
         <div class="specs-image fade-in">
-          <!-- Placeholder: replace with 2nd Ave rendering once exported -->
-          <img src="/images/S9-P3-STREET-LEVEL RENDERING WITH SKYBRIDGE CONNECTION.jpg" alt="2nd Avenue building rendering" loading="lazy">
+          <img src="/images/G-2A-P7.jpg" alt="2nd Avenue office with courtyard and bow truss retail" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2nd Ave: Gallery (placeholders for your exports) -->
-  <!--
+  <!-- 2nd Ave: Gallery -->
   <div class="gallery" style="background: var(--navy); padding-top: 0;">
     <div class="gallery-inner">
-      <div class="gallery-grid three-col">
+      <div class="gallery-grid">
         <div class="gallery-item fade-in">
-          <img src="/images/G-2A-STREET-CORNER.jpg" alt="2nd Avenue street corner view" loading="lazy">
-          <div class="gallery-caption">Street corner view at 2nd Ave N and Taylor</div>
+          <img src="/images/G-2A-P8.jpg" alt="2nd Avenue street view with residential and retail" loading="lazy">
+          <div class="gallery-caption">Mixed-use streetscape with ground-floor retail and residential</div>
         </div>
         <div class="gallery-item fade-in">
-          <img src="/images/G-2A-COURTYARD.jpg" alt="2nd Avenue courtyard plaza" loading="lazy">
-          <div class="gallery-caption">Central courtyard with curated retail frontage</div>
+          <img src="/images/G-2A-P9.jpg" alt="2nd Avenue street corner rendering" loading="lazy">
+          <div class="gallery-caption">Street corner at 2nd Ave N with office and residential buildings</div>
         </div>
-        <div class="gallery-item fade-in">
-          <img src="/images/G-2A-AERIAL-PLAZA.jpg" alt="2nd Avenue aerial plaza view" loading="lazy">
-          <div class="gallery-caption">Aerial view of the mixed-use public realm</div>
+        <div class="gallery-item full-width fade-in">
+          <img src="/images/G-2A-P10.jpg" alt="2nd Avenue North full streetscape" loading="lazy">
+          <div class="gallery-caption">Full 2nd Avenue North streetscape with office, residential, and adaptive reuse retail</div>
         </div>
       </div>
     </div>
   </div>
-  -->
+
+  <!-- 2nd Ave: Public Realm -->
+  <section class="section specs">
+    <div class="section-inner">
+      <div class="specs-grid">
+        <div class="specs-text fade-in">
+          <div class="section-label">Second Avenue</div>
+          <h3>Public Realm</h3>
+          <p>The ground plane at 2nd Avenue is designed to activate street life and connect indoor and outdoor experiences. A central courtyard and curated retail frontage create a vibrant pedestrian environment, while direct Greenway access links the development to Nashville's riverfront trail network.</p>
+          <ul class="feature-list">
+            <li>~33,000 SF of ground-floor retail activating the street edge</li>
+            <li>Central courtyard connecting office, residential, and retail</li>
+            <li>Direct Nashville Greenway access via future pedestrian bridge</li>
+            <li>~45,000 SF of adaptive reuse retail in the historic bow truss building</li>
+          </ul>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/G-2A-P5.jpg" alt="2nd Avenue site plan" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2nd Ave: Site Context -->
+  <section class="section specs specs-dark">
+    <div class="section-inner">
+      <div class="specs-grid reversed">
+        <div class="specs-text fade-in">
+          <div class="section-label">Second Avenue</div>
+          <h3>Site Context</h3>
+          <p>The 2nd Avenue phase sits at 1324 2nd Ave N, directly adjacent to the main Neuhoff campus. The development pairs a 7-story office and retail building with a 6-story residential and retail building, creating a cohesive mixed-use neighborhood with Nashville Greenway adjacency and a future bridge connector to the existing district.</p>
+          <ul class="feature-list">
+            <li>Part of a broader phase totaling over 600,000 SF</li>
+            <li>~315 residential units complementing the office environment</li>
+            <li>704 structured parking spaces</li>
+            <li>Future bridge connector to the main Neuhoff campus</li>
+          </ul>
+        </div>
+        <div class="specs-image fade-in">
+          <img src="/images/G-2A-P4.jpg" alt="2nd Avenue program massing and area breakdown" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ═══ Contact ═══ -->
   <section class="contact" id="contact">
@@ -1285,13 +1343,41 @@
     }, { threshold: [0.95] });
     revealObserver.observe(heroVideo);
 
-    // Sound toggle
+    // Sound toggle (iOS-safe)
     const soundBtn = document.getElementById('soundToggle');
     const heroVideoEl = document.querySelector('.hero-video video');
-    soundBtn.addEventListener('click', () => {
-      heroVideoEl.muted = !heroVideoEl.muted;
-      soundBtn.classList.toggle('unmuted', !heroVideoEl.muted);
-    });
+
+    // On iOS, removing the muted attribute and calling play() in user gesture enables audio
+    function toggleSound() {
+      if (heroVideoEl.muted) {
+        heroVideoEl.removeAttribute('muted');
+        heroVideoEl.muted = false;
+        heroVideoEl.volume = 1.0;
+        heroVideoEl.play().catch(function() {
+          heroVideoEl.muted = true;
+          heroVideoEl.setAttribute('muted', '');
+        });
+        soundBtn.classList.add('unmuted');
+      } else {
+        heroVideoEl.muted = true;
+        heroVideoEl.setAttribute('muted', '');
+        soundBtn.classList.remove('unmuted');
+      }
+    }
+
+    soundBtn.onclick = function(e) {
+      e.preventDefault();
+      toggleSound();
+    };
+
+    // Hide sound button when video scrolls away (for fixed positioning on mobile)
+    const soundObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        soundBtn.style.opacity = entry.isIntersecting ? '1' : '0';
+        soundBtn.style.pointerEvents = entry.isIntersecting ? 'auto' : 'none';
+      });
+    }, { threshold: 0.1 });
+    soundObserver.observe(heroVideo);
   </script>
 
 </body>
